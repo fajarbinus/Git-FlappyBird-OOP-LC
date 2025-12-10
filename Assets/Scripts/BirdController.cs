@@ -7,7 +7,7 @@ public class BirdController : MonoBehaviour
     private Rigidbody2D _rb2d;
     private float _flapForce = 5f;
     private bool _isAlive = true;
-    [SerializeField] private float _yBounds = -5f;
+    [SerializeField] private float _yBounds = 0;
     void Start()
     {
         _rb2d = GetComponent<Rigidbody2D>();
@@ -26,19 +26,21 @@ public class BirdController : MonoBehaviour
     {
         if (!_isAlive) return;
         _isAlive = false;
-        Debug.Log("Die!");
+        //Debug.Log("Die!");
+        GameManager.Instance.GameOver();
     }
 
     void Update()
     {
-        // if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     Flap();
-        // }
+        if (!GameManager.Instance.IsGameStarted()) return;
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        {
+            Flap();
+            //Debug.Log("Click!");
+        }
         if (transform.position.y < _yBounds)
         {
             Die();
-            //Debug.Log("Cek!");
         }
     }
 
